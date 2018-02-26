@@ -48,7 +48,7 @@ public class Crime {
         return mRequiresPolice;
     }
 
-    public  void setRequiresPolice(boolean requiresPolice){
+    public  void setRequiresPolice(boolean b){
         mRequiresPolice = requiresPolice;
     }
 }
