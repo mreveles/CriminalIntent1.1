@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,8 @@ public class CrimeListFragment extends Fragment {
             implements View.OnClickListener {
 
         private Crime mCrime;
+        private ImageView mSolvedImageView;
+        //private Button mRequiresPolice;
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
@@ -53,12 +58,15 @@ public class CrimeListFragment extends Fragment {
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.crime_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
+            mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
+            //mRequiresPolice = (Button) itemView.findViewById(R.id.contact_police_button);
         }
 
         public void bind(Crime crime) {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
-            mDateTextView.setText(mCrime.getDate().toString());
+            mDateTextView.setText(DateFormat.format( "dd-MMM-yyyy", mCrime.getDate()));
+            mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
         }
 
         @Override
