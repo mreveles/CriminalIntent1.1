@@ -1,6 +1,7 @@
 package com.spring2018.cidm4385.mareveles.criminalintent;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,12 +35,22 @@ public class CrimeListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
-        mAdapter = new CrimeAdapter(crimes);
-        mCrimeRecyclerView.setAdapter(mAdapter);
+        if (mAdapter == null) {
+            mAdapter = new CrimeAdapter(crimes);
+            mCrimeRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder
@@ -47,19 +58,20 @@ public class CrimeListFragment extends Fragment {
 
         private Crime mCrime;
         private ImageView mSolvedImageView;
-        //private Button mRequiresPolice;
+        private Button mRequiresPolice;
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
 
         public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
+
             super(inflater.inflate(R.layout.list_item_crime, parent, false));
             itemView.setOnClickListener(this);
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.crime_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
             mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
-            //mRequiresPolice = (Button) itemView.findViewById(R.id.contact_police_button);
+            mRequiresPolice = (Button) itemView.findViewById(R.id.contact_police_button);
         }
 
         public void bind(Crime crime) {
@@ -71,9 +83,8 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(),
-                    mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT)
-                    .show();
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
+            startActivity(intent);
         }
     }
 
@@ -109,7 +120,7 @@ public class CrimeListFragment extends Fragment {
             if(crime.isRequiresPolice()){
                return R.layout.list_item_crime_reqpolice;
             }else {
-               return R.layout.list_item_crime;
+                return R.layout.list_item_crime;
             }
         }
     }
