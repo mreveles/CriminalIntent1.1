@@ -1,5 +1,4 @@
 package com.spring2018.cidm4385.mareveles.criminalintent;
-
 import java.util.Date;
 import java.util.UUID;
 
@@ -48,7 +47,7 @@ public class Crime {
         return mRequiresPolice;
     }
 
-    public  void setRequiresPolice(boolean requiresPolice){
+    public void setRequiresPolice(boolean requiresPolice){
         mRequiresPolice = requiresPolice;
     }
 }
