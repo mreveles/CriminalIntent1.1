@@ -1,19 +1,15 @@
 package com.spring2018.cidm4385.mareveles.criminalintent;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -57,27 +53,24 @@ public class CrimeListFragment extends Fragment {
             implements View.OnClickListener {
 
         private Crime mCrime;
-        private ImageView mSolvedImageView;
-        private Button mRequiresPolice;
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
+        private ImageView mSolvedImageView;
 
         public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
-
             super(inflater.inflate(R.layout.list_item_crime, parent, false));
             itemView.setOnClickListener(this);
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.crime_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
             mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
-            mRequiresPolice = (Button) itemView.findViewById(R.id.contact_police_button);
         }
 
         public void bind(Crime crime) {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
-            mDateTextView.setText(DateFormat.format( "dd-MMM-yyyy", mCrime.getDate()));
+            mDateTextView.setText(mCrime.getDate().toString());
             mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
         }
 
@@ -110,18 +103,7 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-
             return mCrimes.size();
-        }
-
-        @Override
-        public int getItemViewType(int position){
-            Crime crime = mCrimes.get(position);
-            if(crime.isRequiresPolice()){
-               return R.layout.list_item_crime_reqpolice;
-            }else {
-                return R.layout.list_item_crime;
-            }
         }
     }
 }
